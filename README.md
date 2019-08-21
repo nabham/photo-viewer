@@ -9,7 +9,7 @@ To install packages
 npm install
 ```
 
-To start the application
+To start the application. Run the below command and navigate to localhost:8080
 
 ```
 npm start
