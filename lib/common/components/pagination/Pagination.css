@@ -1,0 +1,27 @@
+.pagination {
+  margin: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination a, span {
+  padding: 8px 16px;
+  font-size: 20px;
+  border-radius: 5px;
+  margin: 0 20px;
+}
+
+.pagination a {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pagination span {
+  color: white;
+  background-color: darkgreen;
+}
+
+.pagination a:hover {
+  background-color: #ddd;
+}

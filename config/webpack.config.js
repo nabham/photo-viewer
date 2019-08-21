@@ -7,7 +7,10 @@ module.exports = {
     filename: '[name].bundle.js'
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    alias: {
+      common: path.resolve(__dirname, '../lib/common')
+    }
   },
   module: {
     rules: [

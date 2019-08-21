@@ -1,0 +1,17 @@
+.photos-view {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.img-container {
+  padding: 5px;
+  border: 1px solid #ddd;
+  margin: 5px;
+  box-shadow: 0px 0px 5px #ccc;
+  text-align: center;
+}
+
+.like-button {
+  cursor: pointer;
+}

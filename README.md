@@ -3,6 +3,12 @@ Simple photos viewing app
 
 ### Installing
 
+To install packages
+
+```
+npm install
+```
+
 To start the application
 
 ```

@@ -1,0 +1,31 @@
+.thumb-img {
+  position: relative;
+  transition: 1s all;
+}
+
+.thumb-img img {
+  opacity: 1;
+  transition: opacity 0.2s linear;
+}
+
+.thumb-img:hover img {
+  opacity: 0.8;
+}
+
+.thumb-img:hover .expand-button {
+  visibility: visible;
+  opacity: 1;
+}
+
+.expand-button {
+  position: absolute;
+  top: 80px;
+  right: 25px;
+  visibility: hidden;
+  border: 0;
+  opacity: 0;
+  padding: 0;
+  cursor: pointer;
+  background-color: transparent;
+  transition: visibility 0s, opacity 0.2s linear;
+}
