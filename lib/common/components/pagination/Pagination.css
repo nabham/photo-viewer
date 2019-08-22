@@ -20,6 +20,7 @@
 .pagination span {
   color: white;
   background-color: darkgreen;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .pagination a:hover {

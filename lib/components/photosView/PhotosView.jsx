@@ -6,11 +6,11 @@ import { Thumbnail } from '../thumbnail/Thumbnail';
 import Modal from 'common/components/modal/Modal';
 import Pagination from 'common/components/pagination/Pagination';
 import { Image } from './Image';
+import { SearchView } from './SearchView';
 
-import { fetchPhotos, likeImage } from 'common/services/photo';
+import { fetchPhotos, likeImage, searchPhotos } from 'common/services/photo';
 
 export default class PhotosView extends React.Component {
-
 
   constructor(props) {
     super(props);
@@ -18,13 +18,15 @@ export default class PhotosView extends React.Component {
       visible: false,
       photos: {},
       likes: {},
-      currentPage: 0
+      currentPage: 1,
+      searchText: ''
     };
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleLike = this.handleLike.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -42,16 +44,33 @@ export default class PhotosView extends React.Component {
 
   onPageChange(page) {
     const newPage = this.state.currentPage + page;
-    fetchPhotos(newPage)
+
+    if(this.state.searchText) {
+      return this.createPhotosStateObj(searchPhotos(this.state.searchText, newPage), newPage, this.state.searchText);
+    }
+    
+    this.createPhotosStateObj(fetchPhotos(newPage), newPage, '');
+  }
+
+  handleSearch(value) {
+    // make a API call
+    if(!value) {
+      return this.createPhotosStateObj(fetchPhotos(1), 1, '');
+    }
+    this.createPhotosStateObj(searchPhotos(value), 1, value);
+  }
+
+  createPhotosStateObj(dataPromise, page, value) {
+    dataPromise
       .then(photos => {
-        const likes = {};
-        Object.keys(photos).forEach(photoId => {
-          likes[photoId] = photos[photoId].liked_by_user;
-        });
-        this.setState({ photos, likes, currentPage: newPage });
-      }, () => {
-        this.setState({ photos: {}, likes: {} });
+      const likes = {};
+      Object.keys(photos).forEach(photoId => {
+        likes[photoId] = photos[photoId].liked_by_user;
       });
+      this.setState({ photos, likes, currentPage: page, searchText: value });
+    }, () => {
+      this.setState({ photos: {}, likes: {}, searchText: value });
+    });
   }
 
   openModal(id) {
@@ -63,7 +82,7 @@ export default class PhotosView extends React.Component {
   }
 
   handleLike(id) {
-    likeImage(id, !this.state.likes[id])
+    likeImage(id, this.state.likes[id])
       .then(() => {
         this.setState((currState) => ({
           likes: Object.assign(currState, { [id]: !currState.likes[id] })
@@ -77,16 +96,18 @@ export default class PhotosView extends React.Component {
     return (
       <React.Fragment>
         <Modal visible={this.state.visible} image={this.state.image_url} onClose={this.closeModal} />
+        <SearchView handleSearch={this.handleSearch} />
         <div className="photos-view">
           {Object.keys(this.state.photos).length > 0 ?
             Object.keys(this.state.photos).map((photoId) => {
-              return <Thumbnail key={photoId} image={this.state.photos[photoId].urls.thumb} name={photoId} openModal={this.openModal} handleLike={this.handleLike}
-                render={props => (<Image {...props} />)} />
+              const photo = this.state.photos[photoId];
+              return <Thumbnail key={photoId} image={photo.urls.thumb} name={photoId} openModal={this.openModal}
+                render={props => (<Image {...props} liked={this.state.likes[photoId]} handleLike={this.handleLike} alt={photo.alt_description} />)} />
             })
-            : <div>No data</div>
+            : <div className="no-data">No data</div>
           }
         </div>
-        <Pagination onPageChange={this.onPageChange} number={this.state.currentPage}/>
+        <Pagination onPageChange={this.onPageChange} number={this.state.currentPage} visible={Object.keys(this.state.photos).length > 0} />
       </React.Fragment>
     )
   }
