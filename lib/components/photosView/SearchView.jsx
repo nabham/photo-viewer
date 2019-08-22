@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
+/**
+ * @description This component handle search functionality
+ * 
+ */
 export const SearchView = ({ handleSearch }) => {
 
   let [searchText, setSearchText] = useState('');
@@ -12,7 +17,7 @@ export const SearchView = ({ handleSearch }) => {
   }
 
   function handleClear() {
-    if(searchText) {
+    if (searchText) {
       handleSearch('');
     }
     setSearchText('');
@@ -20,9 +25,13 @@ export const SearchView = ({ handleSearch }) => {
 
   return (
     <div className="search-bar">
-      <input type="text" onKeyPress={searchKeyPress} onChange={(event) => setSearchText(event.target.value)} value={searchText} placeholder="Search photos"/>
+      <input type="text" onKeyPress={searchKeyPress} onChange={(event) => setSearchText(event.target.value)} value={searchText} placeholder="Search photos" />
       <button onClick={() => handleSearch(searchText)}>Search</button>
       {searchText && <button onClick={handleClear}>Clear</button>}
     </div>
   );
 }
+
+SearchView.propTypes = {
+  handleSearch: PropTypes.func
+};

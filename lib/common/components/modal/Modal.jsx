@@ -1,7 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './Modal.css';
 
+/**
+ * @description This component handles application popup modal
+ * Shows popup modal
+ * Zoom-in and out of the image
+ */
 export default function Modal(props) {
 
   if (!props.visible) {
@@ -21,3 +27,9 @@ export default function Modal(props) {
     </div>
   );
 }
+
+Modal.propTypes = {
+  visible: PropTypes.bool,
+  image: PropTypes.string,
+  onClose: PropTypes.func
+};

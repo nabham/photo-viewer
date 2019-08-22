@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './PhotosView.css';
 
@@ -94,7 +95,7 @@ export default class PhotosView extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div className="main-content">
         <Modal visible={this.state.visible} image={this.state.image_url} onClose={this.closeModal} />
         <SearchView handleSearch={this.handleSearch} />
         <div className="photos-view">
@@ -108,7 +109,13 @@ export default class PhotosView extends React.Component {
           }
         </div>
         <Pagination onPageChange={this.onPageChange} number={this.state.currentPage} visible={Object.keys(this.state.photos).length > 0} />
-      </React.Fragment>
+      </div>
     )
   }
 }
+
+Thumbnail.propTypes = {
+  render: PropTypes.func,
+  name: PropTypes.string,
+  openModal: PropTypes.func
+};

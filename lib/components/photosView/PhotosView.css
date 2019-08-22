@@ -1,3 +1,9 @@
+.main-content {
+  min-height: calc(100vh - 80px);
+  background-image: url('/images/confectionary.png');
+  padding-bottom: 10px;
+}
+
 .photos-view {
   display: flex;
   flex-wrap: wrap;
@@ -19,6 +25,7 @@
 
 .like-button {
   cursor: pointer;
+  display: none;
 }
 
 .animate-like-button {
